@@ -22,7 +22,10 @@
   when: kubernetes_source_type == "pkg" and ansible_os_family == "VMware Photon OS"
 
 - import_tasks: url.yml
-  when: kubernetes_source_type != "pkg" and kubernetes_cni_source_type != "pkg"
+  when: kubernetes_source_type != "pkg" and kubernetes_cni_source_type != "pkg" and ansible_os_family != "Flatcar"
+
+- import_tasks: url-flatcar.yml
+  when: ansible_os_family == "Flatcar"
 
 - name: Ensure that the kubelet is running
   service:
