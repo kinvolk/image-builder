@@ -38,6 +38,44 @@
     dest: /
     extra_opts:
       - --no-overwrite-dir
+  when: ansible_os_family != "Flatcar"
+
+- name: unpack containerd for Flatcar into /opt
+  unarchive:
+    remote_src: True
+    src: /tmp/containerd.tar.gz
+    dest: /opt
+    exclude:
+      - ./usr/local/bin/containerd
+      - ./usr/local/bin/containerd-stress
+      - ./usr/local/bin/critest
+      - ./usr/local/sbin/runc
+      - ./etc
+      - ./opt
+    extra_opts:
+      - --no-overwrite-dir
+      - --strip=3
+  when: ansible_os_family == "Flatcar"
+
+- name: unpack containerd for Flatcar into /etc
+  unarchive:
+    remote_src: True
+    src: /tmp/containerd.tar.gz
+    dest: /
+    exclude:
+      - ./etc/systemd/system/containerd.service
+      - ./etc/containerd/config.toml
+      - ./usr
+      - ./opt
+    extra_opts:
+      - --no-overwrite-dir
+  when: ansible_os_family == "Flatcar"
+
+- name: Create systemd unit file for containerd
+  template:
+    dest: /etc/systemd/system/containerd.service
+    src: etc/systemd/system/containerd-flatcar.service
+  when: ansible_os_family == "Flatcar"
 
 - name: Creates unit file directory
   file:
@@ -68,6 +106,23 @@
   template:
     dest: /etc/containerd/config.toml
     src: etc/containerd/config.toml
+  when: ansible_os_family != "Flatcar"
+
+- name: Copy in containerd config overrides for Flatcar
+  template:
+    dest: /etc/containerd/config.toml
+    src: etc/containerd/config-flatcar.toml
+  when: ansible_os_family == "Flatcar"
+
+- name: Copy in crictl config
+  template:
+    dest: /etc/crictl.yaml
+    src: etc/crictl.yaml
+
+- name: stop current containerd service
+  systemd:
+    name: containerd
+    state: stopped
 
 - name: start containerd service
   systemd:

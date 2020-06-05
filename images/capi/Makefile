@@ -128,10 +128,12 @@ PACKER_VAR_FILES := $(foreach f,$(abspath $(PACKER_VAR_FILES)),-var-file="$(f)" 
 ## Platform and version combinations
 ## --------------------------------------
 CENTOS_VERSIONS			:=	centos-7
+FLATCAR_VERSIONS			:=	flatcar-stable
 PHOTON_VERSIONS			:=	photon-3
 UBUNTU_VERSIONS			:=	ubuntu-1804 ubuntu-2004
 
 PLATFORMS_AND_VERSIONS	:=	$(CENTOS_VERSIONS) \
+							$(FLATCAR_VERSIONS) \
 							$(PHOTON_VERSIONS) \
 							$(UBUNTU_VERSIONS)
 
@@ -148,7 +150,7 @@ AZURE_BUILD_NAMES		?=	azure-sig-ubuntu-1804 azure-vhd-ubuntu-1804
 
 DO_BUILD_NAMES 			?=	do-default
 
-QEMU_BUILD_NAMES			?=	qemu-ubuntu-1804
+QEMU_BUILD_NAMES			?=	qemu-flatcar-stable qemu-ubuntu-1804
 
 ## --------------------------------------
 ## Dynamic build targets
@@ -265,6 +267,7 @@ build-node-ova-vsphere-ubuntu-2004: ## Builds Ubuntu 20.04 Node OVA and template
 build-node-ova-vsphere-all: $(NODE_OVA_VSPHERE_BUILD_TARGETS) ## Builds all Node OVAs and templates on vSphere
 build-haproxy-ova-vsphere-photon-3: ## Builds Photon 3 HAProxy OVA and template on vSphere
 
+build-qemu-flatcar-stable: ## Builds Flatcar stable QEMU image
 build-qemu-ubuntu-1804: ## Builds Ubuntu 18.04 QEMU image
 
 ## --------------------------------------
