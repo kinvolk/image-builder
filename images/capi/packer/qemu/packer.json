@@ -1,12 +1,15 @@
 {
   "variables": {
     "ansible_common_vars": "",
-    "ansible_extra_vars": "ansible_python_interpreter=/usr/bin/python3",
-    "boot_wait": "10s",
+    "ansible_extra_vars": "ansible_python_interpreter=/opt/bin/python",
+    "ansible_os_family": "Flatcar",
+    "boot_wait": "120s",
     "build_timestamp": "{{timestamp}}",
     "containerd_version": null,
     "containerd_sha256": null,
     "containerd_url": "https://storage.googleapis.com/cri-containerd-release/cri-containerd-{{user `containerd_version`}}.linux-amd64.tar.gz",
+    "containerd_additional_settings": "",
+    "containerd_cri_socket": "/run/docker/libcontainerd/docker-containerd.sock",
     "existing_ansible_ssh_args": "{{env `ANSIBLE_SSH_ARGS`}}",
     "extra_debs": "",
     "extra_repos": "",
@@ -34,7 +37,9 @@
     "kubernetes_deb_gpg_key": null,
     "kubernetes_rpm_gpg_check": null,
     "kubernetes_container_registry": null,
+    "machine_id_mode": "444",
     "output_directory": "./output/{{user `build_name`}}-kube-{{user `kubernetes_semver`}}",
+    "override_system_hostname": "true",
     "reenable_public_repos": "true",
     "remove_extra_repos": "false",
     "qemu_binary": "qemu-system-x86_64",
@@ -61,13 +66,25 @@
       "boot_command": [
         "{{user `boot_command_prefix`}}",
         "http://{{ .HTTPIP }}:{{ .HTTPPort }}",
-        "{{user `boot_command_suffix`}}"
+        "{{user `boot_command_suffix`}}",
+        "curl -sLo .ssh/authorized_keys https://raw.githubusercontent.com/hashicorp/vagrant/master/keys/vagrant.pub",
+        "<enter>",
+        "curl -sLo /tmp/ignition.json https://raw.githubusercontent.com/iquiw/packer-coreos/master/ignition.json",
+        "<enter>",
+        "sed -i 's/\"name\": \"vagrant\"/\"name\": \"builder\"/' /tmp/ignition.json",
+        "<enter>",
+        "sudo flatcar-install -d /dev/sda -C {{user `channel_name`}} -V {{user `release_version`}} -i /tmp/ignition.json",
+        "<enter>",
+        "sudo reboot",
+        "<enter>",
+        "<wait3m>"
       ],
       "net_device": "virtio-net",
       "qemu_binary": "{{user `qemu_binary`}}",
       "shutdown_command": "echo '{{user `ssh_password`}}' | sudo -S -E sh -c 'usermod -L {{user `ssh_username`}} && {{user `shutdown_command`}}'",
       "ssh_password": "{{user `ssh_password`}}",
       "ssh_username": "{{user `ssh_username`}}",
+      "ssh_private_key_file": "id_rsa",
       "ssh_timeout": "2h"
     }
   ],
@@ -87,5 +104,6 @@
         "{{user `ansible_extra_vars`}}"
       ]
     }
-  ]
+  ],
+  "post-processors": ["vagrant"]
 }
