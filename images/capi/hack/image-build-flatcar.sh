@@ -1,8 +1,5 @@
 #!/bin/sh -e
 
-set -e
-#set -u
-
 export VAGRANT_VAGRANTFILE=${VAGRANT_VAGRANTFILE:-/tmp/Vagrantfile.builder-flatcar}
 
 usage() {
@@ -14,12 +11,13 @@ usage() {
 }
 # --
 
-list_releases() {
+check_for_release() {
+    channel="$1"
+    release="$2"
     curl -s \
-         "https://www.flatcar-linux.org/releases-json/releases-$1.json" \
+         "https://www.flatcar-linux.org/releases-json/releases-$channel.json" \
         | jq -r 'to_entries[] | "\(.key)"' \
-        | grep -v "current" \
-        | sort 
+        | grep -q "$release"
 }
 # --
 
@@ -42,13 +40,14 @@ case $channel in
 esac
 
 release="$2"
-if [ -z "$release" ] ; then
-    release=$(list_releases "$channel" | tail -n1)
-else
-    list_releases "$channel" | grep -q "$release" || {
+if [ -n "$release" ] ; then
+    check_for_release "$channel" "$release" || {
         echo "Unknown release '$release' for channel '$channel'."
         usage
         exit 1; }
+else
+    release="$(\
+       "$(dirname "$0")"/image-grok-latest-flatcar-version.sh "$channel")"
 fi
 
 
@@ -61,9 +60,8 @@ export FLATCAR_CHANNEL FLATCAR_VERSION
 
 rm -rf ./output/flatcar-"${channel}-${release}"-kube-*
 
-# for now the Makefile only supports flatcar-stable.
-# TODO: make it support multiple channels and versions
-make build-qemu-flatcar-stable
+make FLATCAR_CHANNEL="$channel" FLATCAR_VERSION="$release" \
+                                                    build-qemu-flatcar
 
 echo "#### Fetching a test Vagrantfile remotely."
 
