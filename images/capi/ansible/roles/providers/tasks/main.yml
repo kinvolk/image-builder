@@ -19,7 +19,7 @@
   when: packer_builder_type.startswith('azure') 
 
 - include_tasks: vmware.yml
-  when: packer_builder_type is search('vmware') or 
+  when: packer_builder_type is search('vmware') or
         packer_builder_type is search('vsphere')
 
 - include_tasks: googlecompute.yml
@@ -68,6 +68,7 @@
     - cloud-config
     - cloud-init
     - cloud-init-local
+  when: ansible_os_family != "Flatcar"
 
 - name: Create cloud-init config file
   copy:
@@ -76,3 +77,4 @@
     owner: root
     group: root
     mode: 0644
+  when: ansible_os_family != "Flatcar"

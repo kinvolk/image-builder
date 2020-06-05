@@ -65,7 +65,7 @@
     name: conntrackd
     state: stopped
     enabled: false
-  when: ansible_os_family != "Debian"
+  when: ansible_os_family != "Debian" and ansible_os_family != "Flatcar"
 
 - name: Ensure auditd is running and comes on at reboot
   service:
