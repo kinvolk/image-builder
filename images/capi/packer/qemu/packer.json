@@ -70,7 +70,7 @@
         "{{user `boot_command_suffix`}}",
         "curl -sLo .ssh/authorized_keys https://raw.githubusercontent.com/hashicorp/vagrant/master/keys/vagrant.pub",
         "<enter>",
-        "curl -sLo /tmp/ignition.json https://raw.githubusercontent.com/iquiw/packer-coreos/master/ignition.json",
+        "curl -sLo /tmp/ignition.json https://raw.githubusercontent.com/flatcar-linux/flatcar-packer-qemu/master/ignition-vagrant.json",
         "<enter>",
         "sed -i 's/\"name\": \"vagrant\"/\"name\": \"builder\"/' /tmp/ignition.json",
         "<enter>",
