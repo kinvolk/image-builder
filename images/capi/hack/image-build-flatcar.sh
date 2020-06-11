@@ -38,7 +38,8 @@ run_vagrant() {
     img_name="flatcar-${channel}-${release}_vagrant_box_image_0.img"
     box_name="packer_flatcar-${channel}-${release}_libvirt.box"
 
-    export VAGRANT_VAGRANTFILE=${VAGRANT_VAGRANTFILE:-hack/Vagrantfile.flatcar}
+    export VAGRANT_VAGRANTFILE="${VAGRANT_VAGRANTFILE:-hack/Vagrantfile.flatcar}"
+    export VAGRANT_DEFAULT_PROVIDER="libvirt"
 
     echo "#### Cleaning up previous vagrant VMs"
     vagrant halt || true
