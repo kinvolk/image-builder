@@ -255,12 +255,6 @@
         "--extra-vars",
         "{{user `ansible_extra_vars`}}"
       ]
-    },
-    {
-      "type": "goss",
-      "url": "{{user `goss_url`}}",
-      "use_sudo": true,
-      "tests": ["packer/goss/goss.yaml"]
     }
   ],
   "post-processors": [
