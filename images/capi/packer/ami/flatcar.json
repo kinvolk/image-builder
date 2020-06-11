@@ -5,6 +5,7 @@
   "ansible_os_family": "Flatcar",
   "build_name": "flatcar-stable",
   "containerd_cri_socket": "/run/docker/libcontainerd/docker-containerd.sock",
+  "goss_entry_file": "goss/goss-flatcar.yaml",
   "kubernetes_source_type": "http",
   "kubernetes_cni_source_type": "http",
   "python_path": "/opt/bin/builder-env/site-packages",
