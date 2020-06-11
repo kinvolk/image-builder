@@ -19,6 +19,54 @@ check_for_release() {
 }
 # --
 
+run_vagrant() {
+    echo "#### Importing $channel-$release box to vagrant and setting up kubeadm."
+
+    vagrant_name="flatcar-$channel-$release"
+    img_name="flatcar-${channel}-${release}_vagrant_box_image_0.img"
+    box_name="packer_flatcar-${channel}-${release}_libvirt.box"
+
+    export VAGRANT_VAGRANTFILE=${VAGRANT_VAGRANTFILE:-hack/Vagrantfile.flatcar}
+
+    echo "#### Cleaning up previous vagrant VMs"
+    vagrant halt || true
+    vagrant destroy -f || true
+    vagrant box remove "$vagrant_name" || true
+    virsh vol-delete --pool=default "$img_name" || true
+
+    echo "#### creating and starting VM."
+    vagrant box add --name="$vagrant_name" "./$box_name"
+    vagrant up
+    vagrant ssh -c 'sudo systemctl stop locksmithd'
+    vagrant ssh -c 'sudo systemctl restart containerd'
+
+    echo "#### Setting up kubeadm"
+    # shellcheck disable=SC1004
+    vagrant ssh -c 'sudo kubeadm init --ignore-preflight-errors=NumCPU \
+                    --config=/etc/kubeadm.yml'
+    # shellcheck disable=SC2016
+    vagrant ssh -c 'mkdir -p $HOME/.kube
+                    sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+                    sudo chown $(id -u):$(id -g) $HOME/.kube/config'
+    echo
+    vagrant ssh -c 'kubectl cluster-info'
+    echo
+
+    echo "------------------------------------------------------------------"
+    echo "All done."
+    echo "You can access kubectl via 'vagrant ssh -c 'kubectl <command>'"
+    echo "e.g."
+    echo "  vagrant ssh -c 'kubectl get pods --all-namespaces'"
+    echo
+    echo " Please run:"
+    echo "  export FLATCAR_CHANNEL='$channel'"
+    echo "  export FLATCAR_VERSION='$release'"
+    echo "  export VAGRANT_VAGRANTFILE='$VAGRANT_VAGRANTFILE'"
+    echo "before using vagrant commands."
+}
+
+CAPI_PROVIDER=${CAPI_PROVIDER:-qemu}
+
 channel="$1"
 case $channel in
     edge);;
@@ -52,51 +100,15 @@ export FLATCAR_CHANNEL FLATCAR_VERSION
 
 rm -rf ./output/flatcar-"${channel}-${release}"-kube-*
 
-make FLATCAR_CHANNEL="$channel" FLATCAR_VERSION="$release" \
-                                                    build-qemu-flatcar
-
-echo "#### Importing $channel-$release box to vagrant and setting up kubeadm."
-
-vagrant_name="flatcar-$channel-$release"
-img_name="flatcar-${channel}-${release}_vagrant_box_image_0.img"
-box_name="packer_flatcar-${channel}-${release}_libvirt.box"
-
-export VAGRANT_VAGRANTFILE=${VAGRANT_VAGRANTFILE:-hack/Vagrantfile.flatcar}
-
-echo "#### Cleaning up previous vagrant VMs"
-vagrant halt || true
-vagrant destroy -f || true
-vagrant box remove "$vagrant_name" || true
-virsh vol-delete --pool=default "$img_name" || true
-
-echo "#### creating and starting VM."
-vagrant box add --name="$vagrant_name" "./$box_name"
-vagrant up
-vagrant ssh -c 'sudo systemctl stop locksmithd'
-vagrant ssh -c 'sudo systemctl restart containerd'
-
-echo "#### Setting up kubeadm"
-# shellcheck disable=SC1004
-vagrant ssh -c 'sudo kubeadm init --ignore-preflight-errors=NumCPU \
-                --config=/etc/kubeadm.yml'
-# shellcheck disable=SC2016
-vagrant ssh -c 'mkdir -p $HOME/.kube
-                sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-                sudo chown $(id -u):$(id -g) $HOME/.kube/config'
-echo
-vagrant ssh -c 'kubectl cluster-info'
-echo
-
-echo "------------------------------------------------------------------"
-echo "All done."
-echo "You can access kubectl via 'vagrant ssh -c 'kubectl <command>'"
-echo "e.g."
-echo "  vagrant ssh -c 'kubectl get pods --all-namespaces'"
-echo
-echo " Please run:"
-echo "  export FLATCAR_CHANNEL='$channel'"
-echo "  export FLATCAR_VERSION='$release'"
-echo "  export VAGRANT_VAGRANTFILE='$VAGRANT_VAGRANTFILE'"
-echo "before using vagrant commands."
+if [[ ${CAPI_PROVIDER} = "qemu" ]]; then
+    make FLATCAR_CHANNEL="$channel" FLATCAR_VERSION="$release" \
+        build-${CAPI_PROVIDER}-flatcar
+    run_vagrant
+elif [[ ${CAPI_PROVIDER} = "aws" ]] || [[ ${CAPI_PROVIDER} = "ami" ]]; then
+    make build-ami-default
+else
+    echo "Unknown CAPI_PROVIDER=${CAPI_PROVIDER}. exit."
+    exit 1
+fi
 
 # vim:set sts=4 sw=4 et:
