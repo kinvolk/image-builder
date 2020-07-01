@@ -1,3 +1,4 @@
 {
-  "ansible_extra_vars": "ansible_python_interpreter=/opt/bin/python"
+  "ansible_extra_vars": "ansible_python_interpreter=/opt/bin/python",
+  "ansible_os_family": "Flatcar"
 }
