@@ -88,10 +88,8 @@ $ make FLATCAR_CHANNEL=stable FLATCAR_VERSION=2512.2.0 build-qemu-flatcar
 
 ## Notes
 
-* It needs to disable `gather_facts` in `images/capi/ansible/node.yml`, because it is not possible to run python before running setup tasks. Note that python is not installed by default in Flatcar.
-* To make `ansible_env.SUDO_USER` work with `gather_facts` disabled, `setup: filter=ansible_env` is needed in `images/capi/ansible/roles/sysprep/tasks/main.yml`.
 * `images/capi/ansible/roles/setup/tasks/bootstrap-flatcar.yml` installs python under `/opt`.
-* `images/capi/ansible/roles/kubernetes/tasks/url-flatcar.yml` installs artificts of Kubernetes and CNI under `/opt` and `/etc`, mainly because `/usr` is read-only in Flatcar.
+* `images/capi/ansible/roles/kubernetes/tasks/url.yml` installs artificts of Kubernetes and CNI under `/opt` and `/etc`, mainly because `/usr` is read-only in Flatcar.
 * `images/capi/ansible/roles/sysprep/tasks/main.yml` sets hostname with `use: systemd` in case of Flatcar. It is a workaround to avoid hostname detection errors when running ansible in Flatcar. We [fixed the issue](https://github.com/ansible/ansible/pull/69627) in upstream Ansible, but it is not included in any Ansible release yet.
 * It unpacks only parts of containerd binaries, since Flatcar already has its own built-in containerd.
 * To make containerd work correctly, we install Flatcar-specific config files for containerd, so it listens on its containerd socket `/run/docker/libcontainerd/docker-containerd.sock`.
