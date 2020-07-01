@@ -2,7 +2,6 @@
   "variables": {
     "ansible_common_vars": "",
     "ansible_extra_vars": "",
-    "ansible_os_family": "Flatcar",
     "boot_wait": "120s",
     "build_timestamp": "{{timestamp}}",
     "containerd_version": null,
