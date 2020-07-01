@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+[[ "$BUILD_NAME" != *"flatcar"* ]] && exit 0
+
 BINDIR="/opt/bin"
 
 mkdir -p $BINDIR
