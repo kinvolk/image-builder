@@ -121,7 +121,6 @@
     path: "{{ item.path }}"
   loop: "{{ ssh_host_keys.files }}"
 
-- setup: filter=ansible_env
 - name: Remove SSH authorized users
   file:
     state: absent
@@ -163,7 +162,6 @@
   - { path: /var/log/kubernetes/audit.log, state: touch, mode: "0600" }
   when: kubernetes_semver != '' # Ensure audit log is not created for HA Proxy images, since this task is shared amongst build targets
 
-- setup: filter=ansible_env
 - name: Truncate shell history
   file:
     state: absent
