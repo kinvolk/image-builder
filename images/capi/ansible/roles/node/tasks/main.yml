@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-
 - name: Ensure overlay module is present
   modprobe:
     name: overlay
