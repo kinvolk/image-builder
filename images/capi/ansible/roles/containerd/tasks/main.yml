@@ -106,13 +106,6 @@
   template:
     dest: /etc/containerd/config.toml
     src: etc/containerd/config.toml
-  when: ansible_os_family != "Flatcar"
-
-- name: Copy in containerd config overrides for Flatcar
-  template:
-    dest: /etc/containerd/config.toml
-    src: etc/containerd/config-flatcar.toml
-  when: ansible_os_family == "Flatcar"
 
 - name: Copy in crictl config
   template:
