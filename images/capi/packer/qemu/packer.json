@@ -36,7 +36,6 @@
     "kubernetes_container_registry": null,
     "machine_id_mode": "444",
     "output_directory": "./output/{{user `build_name`}}-kube-{{user `kubernetes_semver`}}",
-    "override_system_hostname": "true",
     "reenable_public_repos": "true",
     "remove_extra_repos": "false",
     "qemu_binary": "qemu-system-x86_64",
