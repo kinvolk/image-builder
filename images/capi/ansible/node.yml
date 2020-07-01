@@ -13,7 +13,6 @@
 # limitations under the License.
 ---
 - hosts: all
-  gather_facts: false # not all hosts might be able to run modules yet
   become: yes
 
   tasks:

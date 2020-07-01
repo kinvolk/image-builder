@@ -104,7 +104,7 @@
       ]
     },
     {
-      "name": "flatcar-stable",
+      "name": "flatcar-stable-2512.2.1",
       "type": "amazon-ebs",
       "instance_type": "t3.small",
       "source_ami": "{{user `flatcar_stable_ami`}}",
@@ -158,6 +158,14 @@
         "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done",
         "sudo apt-get -qq update && sudo DEBIAN_FRONTEND=noninteractive apt-get -qqy install python python-pip"
       ]
+    },
+    {
+      "type": "shell",
+      "environment_vars": [
+        "BUILD_NAME={{user `build_name`}}"
+      ],
+      "script": "./packer/files/bootstrap-flatcar.sh",
+      "execute_command": "sudo -S -E {{.Vars}} bash '{{.Path}}'"
     },
     {
       "type": "ansible",

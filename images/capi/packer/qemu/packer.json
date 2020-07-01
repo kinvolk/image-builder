@@ -42,7 +42,7 @@
   },
   "builders": [
     {
-      "name": "{{ user `build_name`}}",
+      "name": "flatcar-stable-2512.2.1",
       "vm_name": "{{user `build_name`}}-kube-{{user `kubernetes_semver`}}",
       "output_directory": "{{user `output_directory`}}",
       "type": "qemu",
@@ -83,6 +83,15 @@
     }
   ],
   "provisioners": [
+    {
+      "type": "shell",
+      "environment_vars": [
+        "BUILD_NAME={{user `build_name`}}"
+      ],
+      "script": "./packer/files/bootstrap-flatcar.sh",
+      "execute_command": "sudo -S -E {{.Vars}} bash '{{.Path}}'",
+      "only": ["flatcar-stable-2512.2.1"]
+    },
     {
       "type": "ansible",
       "playbook_file": "./ansible/node.yml",
