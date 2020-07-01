@@ -94,5 +94,10 @@
       ]
     }
   ],
-  "post-processors": ["vagrant"]
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "only": ["flatcar-stable-2512.2.1"]
+    }
+  ]
 }
