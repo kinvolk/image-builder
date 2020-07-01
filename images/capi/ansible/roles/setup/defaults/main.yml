@@ -12,9 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-# Set the hostname to inventory_hostname
-override_system_hostname: "{{ override_system_hostname }}"
-
 debs: ""
 extra_debs: ""
 pinned_debs: []
