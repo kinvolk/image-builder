@@ -12,5 +12,8 @@
   "kubernetes_deb_gpg_key": "https://packages.cloud.google.com/apt/doc/apt-key.gpg",
   "kubernetes_container_registry": "k8s.gcr.io",
   "kubernetes_load_additional_imgs": "false",
-  "kubeadm_template": "etc/kubeadm.yml"
+  "kubeadm_template": "etc/kubeadm.yml",
+  "systemd_prefix": "/usr/lib/systemd",
+  "sysusr_prefix": "/usr",
+  "sysusrlocal_prefix": "/usr/local"
 }

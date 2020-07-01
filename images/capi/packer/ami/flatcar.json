@@ -5,5 +5,12 @@
   "ansible_os_family": "Flatcar",
   "build_name": "flatcar-stable",
   "containerd_cri_socket": "/run/docker/libcontainerd/docker-containerd.sock",
-  "ssh_username": "core"
+  "kubernetes_source_type": "http",
+  "kubernetes_cni_source_type": "http",
+  "python_path": "/opt/bin/builder-env/site-packages",
+  "root_device_name": "/dev/sda1",
+  "ssh_username": "core",
+  "systemd_prefix": "/etc/systemd",
+  "sysusr_prefix": "/opt",
+  "sysusrlocal_prefix": "/opt"
 }
