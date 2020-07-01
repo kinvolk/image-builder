@@ -10,5 +10,6 @@
   "iso_checksum_type": "file",
   "shutdown_command": "shutdown -P now",
   "ansible_extra_vars": "ansible_python_interpreter=/opt/bin/python",
-  "ansible_os_family": "Flatcar"
+  "ansible_os_family": "Flatcar",
+  "containerd_cri_socket": "/run/docker/libcontainerd/docker-containerd.sock"
 }
