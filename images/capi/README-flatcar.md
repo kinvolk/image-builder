@@ -8,7 +8,7 @@
 
 ## Overview
 
-This is a cluster-API image builder for [Flatcar Container Linux](https://www.flatcar-linux.org).
+This is a Cluster API image builder for [Flatcar Container Linux](https://www.flatcar-linux.org).
 
 On the Packer side it includes `packer/qemu/flatcar.json` and `packer/qemu/packer.json`.
 In `packer/config/` it also includes some other JSON files with configuration for
