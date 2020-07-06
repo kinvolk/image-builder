@@ -7,7 +7,7 @@ Vagrant.configure('2') do |config|
   config.ssh.username = 'builder'
   config.ssh.insert_key = false
   config.ssh.private_key_path = './vagrant-insecure-key'
-  config.vm.box = 'flatcar-' + ENV["FLATCAR_CHANNEL"] + "-" + ENV["FLATCAR_VERSION"]
+  config.vm.box = 'flatcar-' + ENV["FLATCAR_CHANNEL"]
   config.vm.network :forwarded_port, guest: 22, host: 2222, id: "ssh"
   config.vm.synced_folder '.', '/vagrant', disabled: true
   config.vm.provider :virtualbox do |v|
@@ -20,6 +20,6 @@ Vagrant.configure('2') do |config|
     v.cpus = 2
     v.memory = 3072
   end
-  config.vm.define 'vagrant-' + ENV["FLATCAR_CHANNEL"] + "-" + ENV["FLATCAR_VERSION"] do |c|
+  config.vm.define 'vagrant-' + ENV["FLATCAR_CHANNEL"] do |c|
   end
 end
