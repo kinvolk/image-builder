@@ -20,11 +20,11 @@ check_for_release() {
 # --
 
 run_vagrant() {
-    echo "#### Importing $channel-$release box to vagrant and setting up kubeadm."
+    echo "#### Importing $channel box to vagrant and setting up kubeadm."
 
-    vagrant_name="flatcar-$channel-$release"
-    img_name="flatcar-${channel}-${release}_vagrant_box_image_0.img"
-    box_name="packer_flatcar-${channel}-${release}_libvirt.box"
+    vagrant_name="flatcar-$channel"
+    img_name="flatcar-${channel}_vagrant_box_image_0.img"
+    box_name="packer_flatcar-${channel}_libvirt.box"
 
     export VAGRANT_VAGRANTFILE="${VAGRANT_VAGRANTFILE:-hack/Vagrantfile.flatcar}"
     export VAGRANT_DEFAULT_PROVIDER="libvirt"
@@ -99,7 +99,7 @@ FLATCAR_CHANNEL="$channel"
 FLATCAR_VERSION="$release"
 export FLATCAR_CHANNEL FLATCAR_VERSION
 
-rm -rf ./output/flatcar-"${channel}-${release}"-kube-*
+rm -rf ./output/flatcar-"${channel}"-kube-*
 
 if [[ ${CAPI_PROVIDER} = "qemu" ]]; then
     make FLATCAR_CHANNEL="$channel" FLATCAR_VERSION="$release" \
