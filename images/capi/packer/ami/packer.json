@@ -22,6 +22,7 @@
     "extra_debs": "",
     "extra_repos": "",
     "extra_rpms": "",
+    "goss_file": "goss.yaml",
     "iam_instance_profile": "",
     "ib_version": "{{env `IB_VERSION`}}",
     "kms_key_id": "",
@@ -134,6 +135,13 @@
         "--extra-vars",
         "{{user `ansible_extra_vars`}}"
       ]
+    },
+    {
+      "type": "goss",
+      "url": "{{user `goss_url`}}",
+      "use_sudo": true,
+      "goss_file": "{{user `goss_file`}}",
+      "tests": ["packer/goss/{{user `goss_file`}}"]
     }
   ],
   "post-processors": [
