@@ -15,6 +15,7 @@
   "containerd_cri_socket": "/run/docker/libcontainerd/docker-containerd.sock",
   "kubernetes_source_type": "http",
   "kubernetes_cni_source_type": "http",
+  "python_path": "/opt/bin/builder-env/site-packages",
   "systemd_prefix": "/etc/systemd",
   "sysusr_prefix": "/opt"
 }

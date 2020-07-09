@@ -44,6 +44,7 @@
     "kubernetes_semver": null,
     "kubernetes_source_type": null,
     "manifest_output": "manifest.json",
+    "python_path": "{{env `PYTHONPATH`}}",
     "reenable_public_repos": "true",
     "redhat_epel_rpm": "https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm",
     "remove_extra_repos": "false",
