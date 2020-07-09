@@ -39,6 +39,7 @@
     "kubernetes_semver": null,
     "kubernetes_source_type": null,
     "manifest_output": "manifest.json",
+    "python_path": "",
     "skip_profile_validation": "false",
     "snapshot_groups": "all",
     "snapshot_users": "",
