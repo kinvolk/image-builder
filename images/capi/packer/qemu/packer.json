@@ -35,6 +35,7 @@
     "kubernetes_rpm_gpg_check": null,
     "kubernetes_container_registry": null,
     "machine_id_mode": "444",
+    "python_path": "{{env `PYTHONPATH`}}",
     "output_directory": "./output/{{user `build_name`}}-kube-{{user `kubernetes_semver`}}",
     "reenable_public_repos": "true",
     "remove_extra_repos": "false",
