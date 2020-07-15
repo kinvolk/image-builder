@@ -1,5 +1,6 @@
 {
   "goss_arch": "amd64",
+  "goss_file": "goss.yaml",
   "goss_format": "json",
   "goss_format_options": "pretty",
   "goss_url": "",

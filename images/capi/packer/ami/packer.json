@@ -22,7 +22,6 @@
     "extra_debs": "",
     "extra_repos": "",
     "extra_rpms": "",
-    "goss_file": "goss.yaml",
     "iam_instance_profile": "",
     "ib_version": "{{env `IB_VERSION`}}",
     "kms_key_id": "",
@@ -139,10 +138,13 @@
     },
     {
       "type": "goss",
+      "arch": "{{user `goss_arch`}}",
+      "format": "{{user `goss_format`}}",
+      "goss_file": "{{user `goss_file`}}",
+      "tests": ["packer/goss/{{user `goss_file`}}"],
       "url": "{{user `goss_url`}}",
       "use_sudo": true,
-      "goss_file": "{{user `goss_file`}}",
-      "tests": ["packer/goss/{{user `goss_file`}}"]
+      "version": "{{user `goss_version`}}"
     }
   ],
   "post-processors": [
