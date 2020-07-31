@@ -2,7 +2,6 @@
   "ami_filter_name": "Flatcar*stable*",
   "ami_filter_owners": "075585003325",
   "ansible_extra_vars": "ansible_python_interpreter=/opt/bin/python",
-  "ansible_os_family": "Flatcar",
   "build_name": "flatcar-stable",
   "containerd_cri_socket": "/run/docker/libcontainerd/docker-containerd.sock",
   "goss_entry_file": "goss/goss-flatcar.yaml",

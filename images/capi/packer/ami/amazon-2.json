@@ -1,7 +1,6 @@
 {
   "ami_filter_name": "amzn2-ami-hvm-2*",
   "ami_filter_owners": "amazon",
-  "ansible_os_family": "RedHat",
   "build_name": "amazon-2",
   "distribution": "Amazon Linux",
   "distribution_release": "Amazon Linux 2",
