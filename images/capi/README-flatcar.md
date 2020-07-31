@@ -19,7 +19,7 @@ On the Ansible side there's some preliminary playbook in `ansible/`.
 ## Prerequisites
 
 * [packer](https://packer.io/) v1.5 or newer
-* [ansible](https://github.com/ansible/ansible/releases) v2.9 or newer
+* [ansible](https://github.com/ansible/ansible/releases) v2.10 or newer
 * (optional) libvirtd, libvirt-client, vagrant, and virt-manager (for testing)
 
 ### Recommendation
