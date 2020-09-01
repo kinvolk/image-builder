@@ -159,7 +159,7 @@ UBUNTU_VERSIONS			:=	ubuntu-1804 ubuntu-2004
 
 # Set Flatcar Container Linux channel and version if not supplied
 FLATCAR_CHANNEL ?= stable
-FLATCAR_VERSION ?= $(shell hack/image-grok-latest-flatcar-version.sh $(FLATCAR_CHANNEL))
+FLATCAR_VERSION ?= $(shell hack/image-grok-latest-flatcar-version.sh stable)
 
 export FLATCAR_CHANNEL FLATCAR_VERSION
 
