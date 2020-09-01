@@ -1,12 +1,19 @@
 #!/bin/sh
 
-export VAGRANT_VAGRANTFILE=${VAGRANT_VAGRANTFILE:-hack/Vagrantfile.flatcar}
+export VAGRANT_VAGRANTFILE=${VAGRANT_VAGRANTFILE:-/tmp/Vagrantfile.builder-flatcar}
+
+fetch_vagrantfile() {
+    curl -sSL -o ${VAGRANT_VAGRANTFILE} \
+        https://raw.githubusercontent.com/flatcar-linux/flatcar-packer-qemu/builder-ignition/Vagrantfile.builder-flatcar
+}
 
 list_boxes() {
     vagrant box list \
         | grep -E '^flatcar-(alpha|beta|stable|edge)-[0-9.]+' \
         | sed 's/flatcar-\(alpha\|beta\|stable\|edge\)-\([0-9.]\+\).*/\1 \2/'
 }
+
+fetch_vagrantfile
 
 list_boxes | while read -r channel release; do
     export FLATCAR_CHANNEL="$channel"

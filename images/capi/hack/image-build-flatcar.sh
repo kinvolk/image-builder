@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+export VAGRANT_VAGRANTFILE=${VAGRANT_VAGRANTFILE:-/tmp/Vagrantfile.builder-flatcar}
+
 usage() {
     echo "Usage: $0 [<channel>] [<version>]"
     echo "          <channel> is one of: edge alpha beta stable (defaults to"
@@ -19,14 +21,22 @@ check_for_release() {
 }
 # --
 
+fetch_vagrantfile() {
+    curl -sSL -o ${VAGRANT_VAGRANTFILE} \
+        https://raw.githubusercontent.com/flatcar-linux/flatcar-packer-qemu/builder-ignition/Vagrantfile.builder-flatcar
+}
+
 run_vagrant() {
+    echo "#### Fetching a test Vagrantfile remotely."
+
+    fetch_vagrantfile
+
     echo "#### Importing $channel box to vagrant and setting up kubeadm."
 
     vagrant_name="flatcar-$channel"
     img_name="flatcar-${channel}_vagrant_box_image_0.img"
     box_name="packer_flatcar-${channel}_libvirt.box"
 
-    export VAGRANT_VAGRANTFILE="${VAGRANT_VAGRANTFILE:-hack/Vagrantfile.flatcar}"
     export VAGRANT_DEFAULT_PROVIDER="libvirt"
 
     echo "#### Cleaning up previous vagrant VMs"
