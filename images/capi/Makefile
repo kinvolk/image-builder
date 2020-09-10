@@ -363,7 +363,7 @@ build-node-ova-vsphere-ubuntu-2004: ## Builds Ubuntu 20.04 Node OVA and template
 build-node-ova-vsphere-all: $(NODE_OVA_VSPHERE_BUILD_TARGETS) ## Builds all Node OVAs and templates on vSphere
 build-haproxy-ova-vsphere-photon-3: ## Builds Photon 3 HAProxy OVA and template on vSphere
 
-build-qemu-flatcar-stable: ## Builds Flatcar stable QEMU image
+build-qemu-flatcar: ## Builds Flatcar stable QEMU image
 build-qemu-ubuntu-1804: ## Builds Ubuntu 18.04 QEMU image
 build-qemu-ubuntu-2004: ## Builds Ubuntu 20.04 QEMU image
 build-qemu-all: $(QEMU_BUILD_TARGETS) ## Builds all Qemu images
