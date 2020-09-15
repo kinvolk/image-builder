@@ -144,3 +144,8 @@
   file:
     path: /tmp/containerd.tar.gz
     state: absent
+
+# must include crictl-url.yml after installing containerd,
+# as the cri-containerd tarball also includes crictl.
+- import_tasks: crictl-url.yml
+  when: crictl_source_type == "http"
