@@ -5,8 +5,8 @@
 echo "Sign into Azure"
 tracestate="$(shopt -po xtrace)"
 set +o xtrace
-az login --service-principal -u ${AZURE_CLIENT_ID} -p ${AZURE_CLIENT_SECRET} --tenant ${AZURE_TENANT_ID} >/dev/null 2>&1 
-az account set -s ${AZURE_SUBSCRIPTION_ID} >/dev/null 2>&1 
+az login --service-principal -u ${AZURE_CLIENT_ID} -p ${AZURE_CLIENT_SECRET} --tenant ${AZURE_TENANT_ID} >/dev/null 2>&1
+az account set -s ${AZURE_SUBSCRIPTION_ID} >/dev/null 2>&1
 eval "$tracestate"
 
 echo "Create storage account"
