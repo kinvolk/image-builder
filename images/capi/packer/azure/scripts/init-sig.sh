@@ -42,6 +42,14 @@ az sig image-definition create \
 az sig image-definition create \
    --resource-group ${RESOURCE_GROUP_NAME} \
    --gallery-name ${GALLERY_NAME} \
+   --gallery-image-definition capi-flatcar-container-linux-${FLATCAR_CHANNEL} \
+   --publisher capz \
+   --offer capz-demo \
+   --sku ${FLATCAR_CHANNEL} \
+   --os-type Linux
+az sig image-definition create \
+   --resource-group ${RESOURCE_GROUP_NAME} \
+   --gallery-name ${GALLERY_NAME} \
    --gallery-image-definition capi-windows-2019 \
    --publisher capz \
    --offer capz-demo \

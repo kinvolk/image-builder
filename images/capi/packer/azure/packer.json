@@ -50,6 +50,11 @@
       "managed_image_resource_group_name": "{{user `resource_group_name`}}",
       "name": "sig-{{user `build_name`}}",
       "os_type": "Linux",
+      "plan_info": {
+        "plan_name": "stable",
+        "plan_product": "flatcar-container-linux-free",
+        "plan_publisher": "kinvolk"
+      },
       "shared_image_gallery_destination": {
         "gallery_name": "{{user `shared_image_gallery_name`}}",
         "image_name": "{{user `image_name`}}",
@@ -96,6 +101,14 @@
         "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done",
         "sudo apt-get -qq update && sudo DEBIAN_FRONTEND=noninteractive apt-get -qqy install python python-pip"
       ],
+      "type": "shell"
+    },
+    {
+      "environment_vars": [
+        "BUILD_NAME={{user `build_name`}}"
+      ],
+      "execute_command": "BUILD_NAME={{user `build_name`}}; if [[ \"${BUILD_NAME}\" == *\"flatcar\"* ]]; then sudo {{.Vars}} -S -E bash '{{.Path}}'; fi",
+      "script": "./packer/files/bootstrap-flatcar.sh",
       "type": "shell"
     },
     {

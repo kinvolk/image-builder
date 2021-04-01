@@ -134,6 +134,8 @@ if [[ ${CAPI_PROVIDER} = "qemu" ]]; then
     run_vagrant
 elif [[ ${CAPI_PROVIDER} = "aws" ]] || [[ ${CAPI_PROVIDER} = "ami" ]]; then
     make build-ami-flatcar
+elif [[ ${CAPI_PROVIDER} = "azure" ]]; then
+    make build-azure-sig-flatcar
 else
     echo "Unknown CAPI_PROVIDER=${CAPI_PROVIDER}. exit."
     exit 1
